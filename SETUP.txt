@@ -1,0 +1,29 @@
+Planify website with Google sign-in and sync (free)
+
+PART 1: Firebase (Google's free database and sign-in)
+1. Go to console.firebase.google.com and sign in with Google.
+2. Click Create a project. Name it Planify. Turn Google Analytics off. Create.
+3. Left menu: Build > Authentication > Get started > Sign-in method > Google > Enable > pick your email > Save.
+4. Left menu: Build > Firestore Database > Create database > pick the closest location > Start in production mode > Enable.
+5. In Firestore, open the Rules tab, delete everything, paste this, then click Publish:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}
+
+6. Click the gear icon > Project settings > scroll to Your apps > click the web icon (</>) > name it Planify > Register app.
+7. You will see a box of code called firebaseConfig. Copy apiKey, authDomain, projectId and appId.
+   Send them to Claude and it will fill them in for you (these values are safe to share).
+
+PART 2: Put it online
+8. Go to app.netlify.com/drop and drag the whole planify-web folder onto the page. You get a link like something.netlify.app.
+9. Back in Firebase: Authentication > Settings > Authorized domains > Add domain. Paste your Netlify link without the https://.
+
+PART 3: Use it
+10. Open your link on your Mac and your phone and tap Sign in with Google. Use the same Google account on both.
+11. Mac Safari: File > Add to Dock.  iPhone Safari: Share button > Add to Home Screen.
